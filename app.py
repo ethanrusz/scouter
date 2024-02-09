@@ -10,8 +10,9 @@ class Moon:
 
 
 class Creature:
-    def __init__(self, name, power, max_spawns, hits_to_kill):
+    def __init__(self, name, nickname, power, max_spawns, hits_to_kill):
         self.name = name
+        self.nickname = nickname
         self.power = power
         self.max_spawns = max_spawns
         self.hits_to_kill = hits_to_kill
@@ -40,30 +41,30 @@ def main():
     ]
 
     outside_creatures = [
-        Creature('Baboon Hawk', 1, 15, 6),
-        Creature('Circuit Bees', 1, 6, None),
-        Creature('Eyeless Dog', 2, 8, 12),
-        Creature('Forest Keeper', 3, 3, None),
-        Creature('Earth Leviathan', 2, 3, None),
+        Creature('Baboon Hawk', None, 1, 15, 6),
+        Creature('Circuit Bees', None, 1, 6, None),
+        Creature('Eyeless Dog', None, 2, 8, 12),
+        Creature('Forest Keeper', 'Giant', 3, 3, None),
+        Creature('Earth Leviathan', 'Worm', 2, 3, None),
         # Hybrid
-        Creature('Outside Ghost Girl ', 2, 1, None),
-        Creature('Outside Masked', 10, 10, 4),
+        Creature('Outside Ghost Girl ', None, 2, 1, None),
+        Creature('Outside Masked', None, 10, 10, 4),
     ]
 
     inside_creatures = [
-        Creature('Bracken', 3, 1, 6),
-        Creature('Bunker Spider', 3, 1, 6),
-        Creature('Coil Head', 1, 5, None),
-        Creature('Hoarding Bug', 1, 8, 3),
-        Creature('Hygrodere', 1, 2, None),
-        Creature('Jester', 3, 1, None),
-        Creature('Nutcracker', 1, 10, 5),
-        Creature('Snare Flea', 1, 4, 3),
-        Creature('Spore Lizard', 1, 2, None),
-        Creature('Thumper', 2, 4, 4),
+        Creature('Bracken', 'Freddy Fazbear', 3, 1, 6),
+        Creature('Bunker Spider', None, 3, 1, 6),
+        Creature('Coil Head', None, 1, 5, None),
+        Creature('Hoarding Bug', 'Yippee Bug', 1, 8, 3),
+        Creature('Hygrodere', 'Goo', 1, 2, None),
+        Creature('Jester', None, 3, 1, None),
+        Creature('Nutcracker', None, 1, 10, 5),
+        Creature('Snare Flea', "Head. Bug.", 1, 4, 3),
+        Creature('Spore Lizard', None, 1, 2, None),
+        Creature('Thumper', None, 2, 4, 4),
         # Hybrid
-        Creature('Inside Ghost Girl', 2, 1, None),
-        Creature('Inside Masked', 10, 10, 4),
+        Creature('Inside Ghost Girl', None, 2, 1, None),
+        Creature('Inside Masked', None, 10, 10, 4),
     ]
 
     st.markdown('# :red[Lethal Company] Scouter')
@@ -82,14 +83,14 @@ def main():
         st.info(f"Maximum power: {run.moon.outside_max_power}")
 
         for outside_creature in outside_creatures:
-            st.slider(outside_creature.name, 0, outside_creature.max_spawns)
+            st.slider(outside_creature.name, 0, outside_creature.max_spawns, help=outside_creature.nickname)
 
     with column_2:
         st.markdown('### Inside')
         st.info(f"Maximum power: {run.moon.inside_max_power}")
 
         for inside_creature in inside_creatures:
-            st.slider(inside_creature.name, 0, inside_creature.max_spawns)
+            st.slider(inside_creature.name, 0, inside_creature.max_spawns, help=inside_creature.nickname)
 
 
 # https://docs.streamlit.io/library/api-reference/session-state
