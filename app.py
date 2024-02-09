@@ -22,16 +22,6 @@ class Run:
         self.moon = moon
 
 
-def add_field():
-    st.session_state.fields_size += 1
-
-
-def delete_field(index):
-    st.session_state.fields_size -= 1
-    del st.session_state.fields[index]
-    del st.session_state.deletes[index]
-
-
 def main():
     st.set_page_config('Scouter', '🔎')
 
