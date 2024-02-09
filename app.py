@@ -24,7 +24,7 @@ class Run:
 
 
 def main():
-    st.set_page_config('Scouter', '🔎')
+    st.set_page_config('Lethal Company Scouter', '🛰️')
 
     moons = [
         # Tier 1
