@@ -1,4 +1,5 @@
 import streamlit as st
+from itertools import chain
 
 
 class Moon:
@@ -21,6 +22,8 @@ class Creature:
 class Run:
     def __init__(self, moon):
         self.moon = moon
+        self.inside_power_level = moon.inside_max_power
+        self.outside_power_level = moon.outside_max_power
 
 
 def main():
@@ -48,7 +51,7 @@ def main():
         Creature('Earth Leviathan', 'Worm', 2, 3, None),
         # Hybrid
         Creature('Outside Ghost Girl ', None, 2, 1, None),
-        Creature('Outside Masked', None, 10, 10, 4),
+        Creature('Outside Masked', None, 1, 10, 4),
     ]
 
     inside_creatures = [
@@ -64,16 +67,20 @@ def main():
         Creature('Thumper', None, 2, 4, 4),
         # Hybrid
         Creature('Inside Ghost Girl', None, 2, 1, None),
-        Creature('Inside Masked', None, 10, 10, 4),
+        Creature('Inside Masked', None, 1, 10, 4),
     ]
 
     st.markdown('# :red[Lethal Company] Scouter')
     st.markdown(":rainbow[What does the scouter say about this moon's power level?]")
 
     moon = st.selectbox('Moon', sorted(m.name for m in moons),
-                        placeholder='Moon! Pick a moon!',
-                        help='Pick your current moon.')
+                        placeholder='Moon! Pick a moon!', help='Pick your current moon.')
+
     run = Run(next(m for m in moons if m.name is moon))
+    if not st.session_state:
+        for creature in chain(outside_creatures, inside_creatures):
+            st.session_state[creature.name] = 0
+
 
     st.markdown(f"## {run.moon.name} (Tier {run.moon.tier})")
     column_1, column_2 = st.columns(2)
@@ -82,15 +89,31 @@ def main():
         st.markdown('### Outside')
         st.info(f"Maximum power: {run.moon.outside_max_power}")
 
-        for outside_creature in outside_creatures:
-            st.slider(outside_creature.name, 0, outside_creature.max_spawns, help=outside_creature.nickname)
+        for creature in outside_creatures:
+            hold = st.session_state[creature.name]
+            moon_max = min(creature.max_spawns, run.outside_power_level // creature.power)
+            if moon_max > 0:
+                st.slider(creature.name, 0, moon_max, key=creature.name, help=creature.nickname)
+            else:
+                st.slider(creature.name, 0, 1, key=creature.name, help=creature.nickname, disabled=True)
+
+            run.outside_power_level = run.outside_power_level - st.session_state[creature.name]
+
 
     with column_2:
         st.markdown('### Inside')
         st.info(f"Maximum power: {run.moon.inside_max_power}")
 
-        for inside_creature in inside_creatures:
-            st.slider(inside_creature.name, 0, inside_creature.max_spawns, help=inside_creature.nickname)
+        for creature in inside_creatures:
+            moon_max = min(creature.max_spawns, run.inside_power_level // creature.power)
+            if moon_max > 0:
+                st.slider(creature.name, 0, moon_max, key=creature.name, help=creature.nickname)
+            else:
+                st.slider(creature.name, 0, 1, key=creature.name, help=creature.nickname, disabled=True)
+
+            run.inside_power_level = run.inside_power_level - st.session_state[creature.name]
+
+
 
 
 # https://docs.streamlit.io/library/api-reference/session-state
