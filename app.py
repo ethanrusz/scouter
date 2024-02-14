@@ -1,5 +1,4 @@
 import streamlit as st
-from itertools import chain
 
 
 class Moon:
