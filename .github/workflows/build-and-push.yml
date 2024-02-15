@@ -29,5 +29,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            git.beans.team:latest
-            git.beans.team:${{ github.sha }}
+            git.beans.team/em/scouter:latest
+            git.beans.team/em/scouter:${{ github.sha }}
