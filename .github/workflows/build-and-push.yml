@@ -1,0 +1,37 @@
+name: Build and Push to git.beans.team
+on: 
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses actions/checout@v2
+
+      - name: Build Image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: git.beans.team/em/scouter
+          tags: latest ${{ github.sha }}
+          containerfiles: |
+            ./Containerfile
+
+      - name: Push to git.beans.team
+        id: push-to-reg
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: git.beans.team/em
+          username: em
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Print Image URL
+        run: echo "Image pushed to ${{ steps.push-to-reg.outputs.registry-paths }}" 
