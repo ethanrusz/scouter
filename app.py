@@ -25,6 +25,15 @@ class Run:
         self.outside_power = moon.outside_max_power
 
 
+def find_spawnlist(run: Run, creatures: list[Creature]) -> list[str]:
+    """
+    Given a run, return all possible spwns for location.
+
+    :param run: The current run object.
+    :return: A list of all creatures that could still spawn.
+    """
+
+
 def main():
     st.set_page_config("Lethal Company Scouter", "🛰️")
 
@@ -64,11 +73,9 @@ def main():
         Creature("Snare Flea", "Head. Bug.", 1, 4, 3),
         Creature("Spore Lizard", None, 1, 2, None),
         Creature("Thumper", None, 2, 4, 4),
-    ]
-
-    hybrid_creatures = [
-        Creature("Ghost Girl", None, 2, 1, None),
-        Creature("Masked", None, 1, 10, 4),
+        # Hybrid
+        Creature("Inside Ghost Girl ", None, 2, 1, None),
+        Creature("Inside Masked", None, 1, 10, 4),
     ]
 
     st.markdown("# :red[Lethal Company] Scouter")
@@ -84,9 +91,11 @@ def main():
     run = Run(next(m for m in moons if m.name is moon))
 
     st.markdown(f"## {run.moon.name} (Tier {run.moon.tier})")
-    column_1, column_2 = st.columns(2)
 
-    with column_1:
+    # Begin column layout
+    left_column, right_column = st.columns(2)
+
+    with left_column:
         st.markdown("### Outside")
         st.info(f"Maximum power: {run.moon.outside_max_power}")
 
@@ -124,7 +133,7 @@ def main():
                         f"Power level exceedes maximum possible for {run.moon.name}."
                     )
 
-    with column_2:
+    with right_column:
         st.markdown("### Inside")
         st.info(f"Maximum power: {run.moon.inside_max_power}")
 
