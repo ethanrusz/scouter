@@ -25,7 +25,7 @@ class Run:
         self.outside_power = moon.outside_max_power
 
 
-def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str]:
+def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str] | None:
     """
     Given a run, return all possible spwns for location.
 
