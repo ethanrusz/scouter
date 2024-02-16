@@ -32,9 +32,16 @@ def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str]
     :param remaining_power: The remaining power in the current location.
     :return: A list of all creatures that may still spawn.
     """
-    return sorted(
+    if remaining_power == 0:
+        return None
+
+    spawnable = sorted(
         [creature.name for creature in creatures if creature.power <= remaining_power]
     )
+    if spawnable != []:
+        return spawnable
+    else:
+        return None
 
 
 def main():
