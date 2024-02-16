@@ -25,13 +25,16 @@ class Run:
         self.outside_power = moon.outside_max_power
 
 
-def find_spawnlist(run: Run, creatures: list[Creature]) -> list[str]:
+def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str]:
     """
     Given a run, return all possible spwns for location.
 
-    :param run: The current run object.
-    :return: A list of all creatures that could still spawn.
+    :param remaining_power: The remaining power in the current location.
+    :return: A list of all creatures that may still spawn.
     """
+    return sorted(
+        [creature.name for creature in creatures if creature.power <= remaining_power]
+    )
 
 
 def main():
@@ -74,7 +77,7 @@ def main():
         Creature("Spore Lizard", None, 1, 2, None),
         Creature("Thumper", None, 2, 4, 4),
         # Hybrid
-        Creature("Inside Ghost Girl ", None, 2, 1, None),
+        Creature("Inside Ghost Girl", None, 2, 1, None),
         Creature("Inside Masked", None, 1, 10, 4),
     ]
 
@@ -97,7 +100,6 @@ def main():
 
     with left_column:
         st.markdown("### Outside")
-        st.info(f"Maximum power: {run.moon.outside_max_power}")
 
         with st.form("outside"):
             for creature in outside_creatures:
@@ -126,8 +128,10 @@ def main():
 
             outside_submit = st.form_submit_button("Calculate")
             if outside_submit:
+                st.info(f"Maximum power: {run.moon.outside_max_power}")
                 if run.outside_power >= 0:
-                    st.toast(f"🌳 Outside power remaining: {run.outside_power}")
+                    st.warning(f"🌳 Outside power remaining: {run.outside_power}")
+                    st.write(find_spawnlist(run.outside_power, outside_creatures))
                 else:
                     st.error(
                         f"Power level exceedes maximum possible for {run.moon.name}."
@@ -135,7 +139,6 @@ def main():
 
     with right_column:
         st.markdown("### Inside")
-        st.info(f"Maximum power: {run.moon.inside_max_power}")
 
         with st.form("inside"):
             for creature in inside_creatures:
@@ -164,8 +167,10 @@ def main():
 
             inside_submit = st.form_submit_button("Calculate")
             if inside_submit:
+                st.info(f"Maximum power: {run.moon.inside_max_power}")
                 if run.inside_power >= 0:
-                    st.toast(f"🏭 Inside power remaining: {run.inside_power}")
+                    st.warning(f"🏭 Inside power remaining: {run.inside_power}")
+                    st.write(find_spawnlist(run.inside_power, inside_creatures))
                 else:
                     st.error(
                         f"Power level exceedes maximum possible for {run.moon.name}."
