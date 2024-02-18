@@ -27,7 +27,7 @@ class Run:
 
 def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str] | None:
     """
-    Given a run, return all possible spwns for location.
+    Given a run, return all possible spawns for location.
 
     :param remaining_power: The remaining power in the current location.
     :return: A list of all creatures that may still spawn.
