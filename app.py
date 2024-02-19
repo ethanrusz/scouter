@@ -30,7 +30,7 @@ def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str]
     Given a run, return all possible spawns for location.
 
     :param remaining_power: The remaining power in the current location.
-    :return: A list of all creatures that may still spawn.
+    :return: A list of all creatures that may still spawn or None.
     """
     if remaining_power == 0:
         return None
