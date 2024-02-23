@@ -25,10 +25,11 @@ class Run:
         self.outside_power = moon.outside_max_power
 
 
-def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str] | None:
+def find_spawn_list(remaining_power: int, creatures: list[Creature]) -> list[str] | None:
     """
     Given a run, return all possible spawns for location.
 
+    :param creatures:
     :param remaining_power: The remaining power in the current location.
     :return: A list of all creatures that may still spawn or None.
     """
@@ -38,7 +39,7 @@ def find_spawnlist(remaining_power: int, creatures: list[Creature]) -> list[str]
     spawnable = sorted(
         [creature.name for creature in creatures if creature.power <= remaining_power]
     )
-    if spawnable != []:
+    if spawnable:
         return spawnable
     else:
         return None
@@ -138,7 +139,7 @@ def main():
                 st.info(f"Maximum power: {run.moon.outside_max_power}")
                 if run.outside_power >= 0:
                     st.warning(f"🌳 Outside power remaining: {run.outside_power}")
-                    st.write(find_spawnlist(run.outside_power, outside_creatures))
+                    st.write(find_spawn_list(run.outside_power, outside_creatures))
                 else:
                     st.error(
                         f"Power level exceedes maximum possible for {run.moon.name}."
@@ -177,7 +178,7 @@ def main():
                 st.info(f"Maximum power: {run.moon.inside_max_power}")
                 if run.inside_power >= 0:
                     st.warning(f"🏭 Inside power remaining: {run.inside_power}")
-                    st.write(find_spawnlist(run.inside_power, inside_creatures))
+                    st.write(find_spawn_list(run.inside_power, inside_creatures))
                 else:
                     st.error(
                         f"Power level exceedes maximum possible for {run.moon.name}."
