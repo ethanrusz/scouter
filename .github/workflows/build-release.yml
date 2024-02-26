@@ -1,13 +1,10 @@
-name: Build and Push to git.beans.team
+name: Build and Push Releases
 
-on: 
-  push:
-    branches:
-      - main
-    tags:
-      - '*'
+on:
+  release:
+    types: [ published ]
 
-jobs: 
+jobs:
   update-registry:
     name: Update Registry Image
     runs-on: ubuntu-latest
@@ -28,6 +25,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            git.beans.team/em/scouter:latest
-            git.beans.team/em/scouter:${{ github.sha }}
+          tags: git.beans.team/em/scouter:${{ github.event.release.tag_name }}

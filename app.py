@@ -141,7 +141,7 @@ def main():
                     st.write(find_spawnlist(run.outside_power, outside_creatures))
                 else:
                     st.error(
-                        f"Power level exceedes maximum possible for {run.moon.name}."
+                        f"Power level exceeds maximum possible for {run.moon.name}."
                     )
 
     with right_column:
@@ -180,7 +180,7 @@ def main():
                     st.write(find_spawnlist(run.inside_power, inside_creatures))
                 else:
                     st.error(
-                        f"Power level exceedes maximum possible for {run.moon.name}."
+                        f"Power level exceeds maximum possible for {run.moon.name}."
                     )
 
 
