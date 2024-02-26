@@ -1,4 +1,5 @@
 import streamlit as st
+import database as db
 
 
 class Moon:
@@ -92,9 +93,11 @@ def main():
     st.markdown("# :red[Lethal Company] Scouter")
     st.markdown(":rainbow[What does the scouter say about this moon's power level?]")
 
+    moon_strings = db.get_moon_list()
+
     moon = st.selectbox(
         "Moon",
-        sorted(m.name for m in moons),
+        moon_strings,
         placeholder="Moon! Pick a moon!",
         help="Pick your current moon.",
     )
