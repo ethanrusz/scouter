@@ -108,5 +108,3 @@ limit 1;"""
             return Moon(*moon)
         else:
             return None
-
-print(get_moon_by_id(3).default_layout)
