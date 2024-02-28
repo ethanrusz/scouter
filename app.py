@@ -21,8 +21,8 @@ def main():
         placeholder="Moon! Pick a moon!",
         help="Pick your current moon.",
     )
-    moon_id = db.get_moon_id_by_name(moon_name)
-    run = Run(db.get_moon_by_id(moon_id))
+    moon_id: int = db.get_moon_id_by_name(moon_name)
+    run: Run = Run(db.get_moon_by_id(moon_id))
 
     st.markdown(f"## {run.moon.name} ({run.moon.tier})")
 
@@ -45,8 +45,8 @@ def main():
         db.get_scrap_list(),
         placeholder='Select a scrap name!'
     )
-    scrap_id = db.get_scrap_id_by_name(scrap_name)
-    scrap = db.get_scrap_by_id(scrap_id)
+    scrap_id: int = db.get_scrap_id_by_name(scrap_name)
+    scrap: db.Scrap = db.get_scrap_by_id(scrap_id)
 
     st.write(scrap)
 
