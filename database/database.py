@@ -3,8 +3,9 @@ import sqlite3
 
 
 class Moon:
-    def __init__(self, moon_id, name, risk_level, cost, default_layout, map_size_multiplier, min_scrap, max_scrap,
-                 outside_max_power, inside_max_power, tier):
+    def __init__(self, moon_id: int, name: str, risk_level: str, cost: int, default_layout: str,
+                 map_size_multiplier: float, min_scrap: int, max_scrap: int, outside_max_power: int,
+                 inside_max_power: int, tier: str):
         self.moon_id: int = moon_id
         self.name: str = name
         self.risk_level: str = risk_level
@@ -19,7 +20,8 @@ class Moon:
 
 
 class Scrap:
-    def __init__(self, scrap_id, name, min_value, max_value, weight, conductive, two_handed):
+    def __init__(self, scrap_id: int, name: str, min_value: int,
+                 max_value: int, weight: int, conductive: int, two_handed: int):
         self.scrap_id: int = scrap_id
         self.name: str = name
         self.min_value: int = min_value

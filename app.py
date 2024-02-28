@@ -3,7 +3,7 @@ import database as db
 
 
 class Run:
-    def __init__(self, moon):
+    def __init__(self, moon: db.Moon):
         self.moon: db.Moon = moon
         self.inside_power: int = moon.inside_max_power
         self.outside_power: int = moon.outside_max_power
