@@ -21,6 +21,9 @@ class Run:
 def main():
     st.set_page_config("Lethal Company Scouter", "🛰️")
 
+    st.markdown("# :red[Lethal Company] Scouter")
+    st.markdown(":rainbow[What does the scouter say about this moon's power level?]")
+
     moon_name = st.selectbox(
         "Moon",
         db.get_moon_list(),
@@ -32,8 +35,8 @@ def main():
 
     st.markdown(f"## {run.moon.name} ({run.moon.tier})")
 
-    st.info(f"Risk: {run.moon.risk_level} | Min scrap: {run.moon.min_scrap} "
-            f"| Max scrap: {run.moon.max_scrap} | Default layout: {run.moon.default_layout}")
+    st.write(run)
+    st.write(run.moon)
 
     # Begin column layout
     left_column, right_column = st.columns(2)
@@ -43,6 +46,18 @@ def main():
 
     with right_column:
         st.markdown("### Inside")
+
+    st.markdown('## Scrap Lookup')
+
+    scrap_name = st.selectbox(
+        'Scrap Name',
+        db.get_scrap_list(),
+        placeholder='Select a scrap name!'
+    )
+    scrap_id = db.get_scrap_id_by_name(scrap_name)
+    scrap = db.get_scrap_by_id(scrap_id)
+
+    st.write(scrap)
 
 
 if __name__ == "__main__":
