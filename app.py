@@ -4,9 +4,9 @@ import database as db
 
 class Run:
     def __init__(self, moon):
-        self.moon = moon
-        self.inside_power = moon.inside_max_power
-        self.outside_power = moon.outside_max_power
+        self.moon: db.Moon = moon
+        self.inside_power: int = moon.inside_max_power
+        self.outside_power: int = moon.outside_max_power
 
 
 def main():

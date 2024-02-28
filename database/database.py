@@ -5,28 +5,28 @@ import sqlite3
 class Moon:
     def __init__(self, moon_id, name, risk_level, cost, default_layout, map_size_multiplier, min_scrap, max_scrap,
                  outside_max_power, inside_max_power, tier):
-        self.moon_id = moon_id
-        self.name = name
-        self.risk_level = risk_level
-        self.cost = cost
-        self.default_layout = default_layout,
-        self.map_size_multiplier = map_size_multiplier
-        self.min_scrap = min_scrap
-        self.max_scrap = max_scrap
-        self.outside_max_power = outside_max_power
-        self.inside_max_power = inside_max_power
-        self.tier = tier
+        self.moon_id: int = moon_id
+        self.name: str = name
+        self.risk_level: str = risk_level
+        self.cost: int = cost
+        self.default_layout: str = default_layout
+        self.map_size_multiplier: float = map_size_multiplier
+        self.min_scrap: int = min_scrap
+        self.max_scrap: int = max_scrap
+        self.outside_max_power: int = outside_max_power
+        self.inside_max_power: int = inside_max_power
+        self.tier: str = tier
 
 
 class Scrap:
     def __init__(self, scrap_id, name, min_value, max_value, weight, conductive, two_handed):
-        self.scrap_id = scrap_id
-        self.name = name
-        self.min_value = min_value
-        self.max_value = max_value
-        self.weight = weight
-        self.conductive = conductive
-        self.two_handed = two_handed
+        self.scrap_id: int = scrap_id
+        self.name: str = name
+        self.min_value: int = min_value
+        self.max_value: int = max_value
+        self.weight: int = weight
+        self.conductive: bool = bool(conductive)
+        self.two_handed: bool = bool(two_handed)
 
 
 def get_connection() -> sqlite3.Connection:
