@@ -2,15 +2,6 @@ import streamlit as st
 import database as db
 
 
-class Creature:
-    def __init__(self, name, nickname, power, max_spawns, hits_to_kill):
-        self.name = name
-        self.nickname = nickname
-        self.power = power
-        self.max_spawns = max_spawns
-        self.hits_to_kill = hits_to_kill
-
-
 class Run:
     def __init__(self, moon):
         self.moon = moon
@@ -50,7 +41,7 @@ def main():
     st.markdown('## Scrap Lookup')
 
     scrap_name = st.selectbox(
-        'Scrap Name',
+        'Scrap',
         db.get_scrap_list(),
         placeholder='Select a scrap name!'
     )

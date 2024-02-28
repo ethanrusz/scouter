@@ -107,7 +107,8 @@ from moon as m
          join main.layout l on l.layout_id = m.default_layout_id
          join main.moon_tier mt on mt.moon_tier_id = m.moon_tier_id
 where m.moon_id = ?
-limit 1;"""
+limit 1;
+"""
 
         moon = cursor.execute(
             query,
