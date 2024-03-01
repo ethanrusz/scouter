@@ -30,13 +30,9 @@ def main():
     st.write(run.moon)
 
     # Begin column layout
-    left_column, right_column = st.columns(2)
-
-    with left_column:
-        st.markdown("### Outside")
-
-    with right_column:
-        st.markdown("### Inside")
+    creatures = db.get_spawnable_inside_creature_ids(run.moon.moon_id)
+    for creature in creatures:
+        st.write(db.get_creature_by_id(creature))
 
     st.markdown('## Scrap Lookup')
 

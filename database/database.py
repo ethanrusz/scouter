@@ -2,6 +2,24 @@ import os
 import sqlite3
 
 
+class Creature:
+    def __init__(self, creature_id: int, creature_name: str, creature_nickname: str, health: int, power_level: int,
+                 max_spawn: int, stunnable: int, stun_multiplier: float or None, door_open_speed: float or None,
+                 hostile: int, creature_type: str, favorite_moon: str):
+        self.creature_id: int = creature_id
+        self.creature_name: str = creature_name
+        self.creature_nickname: str = creature_nickname
+        self.health: int = health
+        self.power_level: int = power_level
+        self.max_spawn: int = max_spawn
+        self.stunnable: bool = bool(stunnable)
+        self.stun_multiplier: float = stun_multiplier
+        self.door_open_speed: float or None = door_open_speed
+        self.hostile: bool = bool(hostile)
+        self.creature_type: str = creature_type
+        self.favorite_moon: str = favorite_moon
+
+
 class Moon:
     def __init__(self, moon_id: int, name: str, risk_level: str, cost: int, default_layout: str,
                  map_size_multiplier: float, min_scrap: int, max_scrap: int, outside_max_power: int,
@@ -20,8 +38,8 @@ class Moon:
 
 
 class Scrap:
-    def __init__(self, scrap_id: int, name: str, min_value: int,
-                 max_value: int, weight: int, conductive: int, two_handed: int):
+    def __init__(self, scrap_id: int, name: str, min_value: int, max_value: int, weight: int, conductive: int,
+                 two_handed: int):
         self.scrap_id: int = scrap_id
         self.name: str = name
         self.min_value: int = min_value
@@ -41,6 +59,41 @@ def get_connection() -> sqlite3.Connection:
         return sqlite3.connect(os.getenv("DATABASE_FILE"))
     else:
         return sqlite3.connect("./scouter.db")
+
+
+def get_creature_by_id(creature_id: int) -> Creature or None:
+    with get_connection() as connection:
+        cursor = connection.cursor()
+
+        query = """
+        select c.creature_id,
+       c.creature_name,
+       c.creature_nickname,
+       c.health,
+       c.power_level,
+       c.max_spawn,
+       c.stunnable,
+       c.stun_multiplier,
+       c.door_open_speed,
+       c.hostile,
+       ct.type_name,
+       m.moon_name
+from creature as c
+         join main.creature_type ct on c.creature_type_id = ct.creature_type_id
+         join main.moon m on c.favorite_moon_id = m.moon_id
+where creature_id = ?
+limit 1;
+"""
+
+        creature = cursor.execute(
+            query,
+            (creature_id,)
+        ).fetchone()
+
+        if creature:
+            return Creature(*creature)
+        else:
+            return None
 
 
 def get_moon_id_by_name(moon_name: str) -> int | None:
@@ -79,8 +132,7 @@ def get_moon_list() -> list[str] | None:
         ).fetchall()
 
     if moon_names:
-        moon_names = [moon[0] for moon in moon_names]
-        return moon_names
+        return [moon[0] for moon in moon_names]
     else:
         return None
 
@@ -189,5 +241,31 @@ limit 1;
 
         if scrap:
             return Scrap(*scrap)
+        else:
+            return None
+
+
+def get_spawnable_inside_creature_ids(moon_id: int) -> list[int] | None:
+    with get_connection() as connection:
+        cursor = connection.cursor()
+
+        query = """
+        select c.creature_id as Creature
+from spawn_chance as s
+         join main.creature c on s.creature_id = c.creature_id
+         join main.moon m on m.moon_id = s.moon_id
+         join main.creature_type ct on ct.creature_type_id = c.creature_type_id
+where s.moon_id like ?
+  and (ct.type_name = 'Inside' or 'Hybrid')
+  and s.spawn_chance > 0
+order by s.spawn_chance desc;
+"""
+        creature_ids = cursor.execute(
+            query,
+            (moon_id,)
+        ).fetchall()
+
+        if creature_ids:
+            return [creature_id[0] for creature_id in creature_ids]
         else:
             return None
