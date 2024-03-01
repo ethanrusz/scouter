@@ -73,7 +73,9 @@ def get_moon_list() -> list[str] | None:
     with get_connection() as connection:
         cursor = connection.cursor()
         moon_names = cursor.execute(
-            "select moon_name from moon order by moon_id"
+            "select moon_name "
+            "from moon "
+            "order by moon_id;"
         ).fetchall()
 
     if moon_names:
